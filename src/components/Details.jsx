@@ -51,13 +51,22 @@ function Details({
                   size="lg"
                 />
               </Input.Wrapper>
-              <Input.Wrapper label="Student ID No.">
-                <Input
-                  placeholder="Student ID No."
-                  value={sampleData.student_ID}
-                  size="lg"
-                />
-              </Input.Wrapper>
+              <Flex gap="lg" direction={{ base: "column", sm: "row" }}>
+                <Input.Wrapper flex={1} label="Student ID No.">
+                  <Input
+                    placeholder="Student ID No."
+                    value={sampleData.student_ID}
+                    size="lg"
+                  />
+                </Input.Wrapper>
+                <Input.Wrapper flex={1} label="Course">
+                  <Input
+                    placeholder="Course"
+                    value={sampleData.course}
+                    size="lg"
+                  />
+                </Input.Wrapper>
+              </Flex>
               <Flex gap="lg" direction={{ base: "column", sm: "row" }}>
                 <Input.Wrapper flex={1} label="Year Level">
                   <Input
