@@ -2,7 +2,7 @@ import "../components/Details.css";
 import {
   Input,
   Stack,
-  Group,
+  Grid,
   Box,
   Text,
   Image,
@@ -12,7 +12,12 @@ import {
 
 import nullImage from "../assets/photo.svg";
 
-function Details() {
+function Details({
+  hasScanned,
+  onCancelAttendance,
+  onSaveAttendance,
+  loading,
+}) {
   const sampleData = {
     name: "Jose Cruz",
     student_ID: 0o123301572,
@@ -22,84 +27,121 @@ function Details() {
   };
 
   return (
-    <Flex direction="column" gap={30} mih="100%">
-      <Box bg="#1061D5" p={35} bdrs={10} ta="center">
-        <Text fw={700} fz={30} c="white">
-          ATTENDANCE AND IDENTITY VERIFICATION SYSTEM
-        </Text>
-      </Box>
-      <Flex direction="column" gap={30} p="md" bdrs={10} bg="#F9F9F9" flex={1}>
-        <Box>
-          <Stack gap={20}>
-            <Input.Wrapper label="Full Name">
-              <Input
-                placeholder={"Full Name"}
-                value={sampleData.name}
-                size="lg"
-              />
-            </Input.Wrapper>
-            <Input.Wrapper label="Student ID No.">
-              <Input
-                placeholder="Student ID No."
-                value={sampleData.student_ID}
-                size="lg"
-              />
-            </Input.Wrapper>
-            <Group grow gap="lg">
-              <Input.Wrapper label="Year Level">
-                <Input
-                  placeholder="Year Level"
-                  value={sampleData.year}
-                  size="lg"
-                />
-              </Input.Wrapper>
-              <Input.Wrapper label="Section">
-                <Input
-                  placeholder="Section"
-                  value={sampleData.section}
-                  size="lg"
-                />
-              </Input.Wrapper>
-            </Group>
-          </Stack>
-        </Box>
-        <Box>
-          <Text fw={500} fz={14}>
-            Image
+    <>
+      <Flex direction="column" gap={30} mih="100%">
+        <Box bg="#1061D5" p={35} bdrs={10} ta="center">
+          <Text fw={700} fz={{ base: "1.5rem", sm: "2rem" }} c="white">
+            ATTENDANCE AND IDENTITY VERIFICATION SYSTEM
           </Text>
-          <Box
-            mt={10}
-            w="100%"
-            p={10}
-            bg="white"
-            bd="1px solid #D9D9D9"
-            bdrs={10}
-          >
-            <Flex justify="center" align="center" bg="#D9D9D9" bdrs={10}>
-              <Image
-                radius="md"
-                src={
-                  sampleData.img
-                    ? nullImage
-                    : "https://placehold.co/600x400?text=Placeholder"
-                }
-                h={300}
-                w={300}
-                fallbackSrc="https://placehold.co/600x400?text=Placeholder"
-              />
-            </Flex>
-          </Box>
         </Box>
-        <Group gap={20} justify="flex-end" mt="auto">
-          <Button size="lg" bg="red" radius={10}>
-            Cancel
-          </Button>
-          <Button size="lg" bg="green" radius={10}>
-            Save Attendance
-          </Button>
-        </Group>
+        <Flex
+          direction="column"
+          gap={30}
+          p="md"
+          bdrs={10}
+          bg="#F9F9F9"
+          flex={1}
+        >
+          <Box>
+            <Stack gap={20}>
+              <Input.Wrapper label="Full Name">
+                <Input
+                  placeholder={"Full Name"}
+                  value={sampleData.name}
+                  size="lg"
+                />
+              </Input.Wrapper>
+              <Input.Wrapper label="Student ID No.">
+                <Input
+                  placeholder="Student ID No."
+                  value={sampleData.student_ID}
+                  size="lg"
+                />
+              </Input.Wrapper>
+              <Flex gap="lg" direction={{ base: "column", sm: "row" }}>
+                <Input.Wrapper flex={1} label="Year Level">
+                  <Input
+                    placeholder="Year Level"
+                    value={sampleData.year}
+                    size="lg"
+                  />
+                </Input.Wrapper>
+                <Input.Wrapper flex={1} label="Section">
+                  <Input
+                    placeholder="Section"
+                    value={sampleData.section}
+                    size="lg"
+                  />
+                </Input.Wrapper>
+              </Flex>
+            </Stack>
+          </Box>
+          <Box>
+            <Text fw={500} fz={14}>
+              Image
+            </Text>
+            <Box
+              mt={10}
+              w="100%"
+              p={10}
+              bg="white"
+              bd="1px solid #D9D9D9"
+              bdrs={10}
+            >
+              <Flex justify="center" align="center" bg="#D9D9D9" bdrs={10}>
+                <Image
+                  fit="cover"
+                  radius="md"
+                  src={
+                    sampleData.img
+                      ? nullImage
+                      : "https://placehold.co/600x400?text=Placeholder"
+                  }
+                  h="auto"
+                  maw={300}
+                  fallbackSrc="https://placehold.co/600x400?text=Placeholder"
+                />
+              </Flex>
+            </Box>
+          </Box>
+
+          <Grid ms={{ xs: "auto" }} mt="auto">
+            <Grid.Col
+              span={{ base: 12, xs: "auto" }}
+              order={{ base: 1, xs: 2 }}
+            >
+              <Button
+                disabled={!hasScanned}
+                size="md"
+                fullWidth
+                bg={hasScanned ? "green" : "gray"}
+                radius={10}
+                onClick={onSaveAttendance}
+                loading={loading}
+              >
+                Save Attendance
+              </Button>
+            </Grid.Col>
+
+            <Grid.Col
+              span={{ base: 12, xs: "auto" }}
+              order={{ base: 2, xs: 1 }}
+            >
+              <Button
+                disabled={!hasScanned}
+                size="md"
+                fullWidth
+                bg={hasScanned ? "red" : "gray"}
+                radius={10}
+                onClick={onCancelAttendance}
+              >
+                Cancel
+              </Button>
+            </Grid.Col>
+          </Grid>
+        </Flex>
       </Flex>
-    </Flex>
+    </>
   );
 }
 
