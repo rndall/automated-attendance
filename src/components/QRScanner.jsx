@@ -1,5 +1,17 @@
-function QRScanner() {
-  return <div>QRScanner</div>;
+import { Scanner } from "@yudiel/react-qr-scanner";
+
+function QRScanner({ onScan }) {
+  return (
+    <Scanner
+      styles={{
+        container: {
+          borderRadius: "10px",
+          border: "1px solid #BBBBBB",
+        },
+      }}
+      onScan={(result) => onScan(result[0].rawValue)}
+    />
+  );
 }
 
 export default QRScanner;
