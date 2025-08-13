@@ -46,7 +46,8 @@ function App() {
     <MantineProvider>
       <Stack bg="#e4e4e4" mih="100dvh" justify="center">
         <Flex
-          p={defaultStyles.padding}
+          py={{ base: defaultStyles.padding, xl: 5 }}
+          px={defaultStyles.padding}
           gap={20}
           direction={{ base: "column", md: "row" }}
         >
