@@ -3,6 +3,7 @@ import { Scanner } from "@yudiel/react-qr-scanner";
 function QRScanner({ onScan }) {
   return (
     <Scanner
+      allowMultiple
       styles={{
         container: {
           borderRadius: "10px",
