@@ -27,130 +27,96 @@ function Details({
   };
 
   return (
-    <>
-      <Flex direction="column" gap={30} mih="100%">
-        <Box bg="#1061D5" p={35} bdrs={10} ta="center">
-          <Text fw={700} fz={{ base: "1.5rem", sm: "2rem" }} c="white">
-            ATTENDANCE AND IDENTITY VERIFICATION SYSTEM
-          </Text>
-        </Box>
-        <Flex
-          direction="column"
-          gap={30}
-          p="md"
-          bdrs={10}
-          bg="#F9F9F9"
-          flex={1}
-        >
-          <Box>
-            <Stack gap={20}>
-              <Input.Wrapper label="Full Name">
+    <Flex direction="column" gap="sm" mih="100%">
+      <Box bg="#1061D5" p={35} bdrs={10} ta="center">
+        <Text fw={700} fz={{ base: "1.25rem", sm: "1.5rem" }} c="white">
+          ATTENDANCE AND IDENTITY VERIFICATION SYSTEM
+        </Text>
+      </Box>
+      <Flex direction="column" p="md" bdrs={10} gap="md" bg="#F9F9F9" flex={1}>
+        <Box>
+          <Stack>
+            <Input.Wrapper label="Full Name">
+              <Input placeholder={"Full Name"} value={sampleData.name} />
+            </Input.Wrapper>
+            <Flex gap="sm" direction={{ base: "column", sm: "row" }}>
+              <Input.Wrapper flex={1} label="Student ID No.">
                 <Input
-                  placeholder={"Full Name"}
-                  value={sampleData.name}
-                  size="lg"
+                  placeholder="Student ID No."
+                  value={sampleData.student_ID}
                 />
               </Input.Wrapper>
-              <Flex gap="lg" direction={{ base: "column", sm: "row" }}>
-                <Input.Wrapper flex={1} label="Student ID No.">
-                  <Input
-                    placeholder="Student ID No."
-                    value={sampleData.student_ID}
-                    size="lg"
-                  />
-                </Input.Wrapper>
-                <Input.Wrapper flex={1} label="Course">
-                  <Input
-                    placeholder="Course"
-                    value={sampleData.course}
-                    size="lg"
-                  />
-                </Input.Wrapper>
-              </Flex>
-              <Flex gap="lg" direction={{ base: "column", sm: "row" }}>
-                <Input.Wrapper flex={1} label="Year Level">
-                  <Input
-                    placeholder="Year Level"
-                    value={sampleData.year}
-                    size="lg"
-                  />
-                </Input.Wrapper>
-                <Input.Wrapper flex={1} label="Section">
-                  <Input
-                    placeholder="Section"
-                    value={sampleData.section}
-                    size="lg"
-                  />
-                </Input.Wrapper>
-              </Flex>
-            </Stack>
+              <Input.Wrapper flex={1} label="Course">
+                <Input placeholder="Course" value={sampleData.course} />
+              </Input.Wrapper>
+            </Flex>
+            <Flex gap="sm" direction={{ base: "column", sm: "row" }}>
+              <Input.Wrapper flex={1} label="Year Level">
+                <Input placeholder="Year Level" value={sampleData.year} />
+              </Input.Wrapper>
+              <Input.Wrapper flex={1} label="Section">
+                <Input placeholder="Section" value={sampleData.section} />
+              </Input.Wrapper>
+            </Flex>
+          </Stack>
+        </Box>
+        <Box>
+          <Text fw={500} fz={14}>
+            Image
+          </Text>
+          <Box
+            mt={10}
+            w="100%"
+            p={10}
+            bg="white"
+            bd="1px solid #D9D9D9"
+            bdrs={10}
+          >
+            <Flex justify="center" align="center" bg="#D9D9D9" bdrs={10}>
+              <Image
+                fit="cover"
+                radius="md"
+                src={
+                  sampleData.img
+                    ? nullImage
+                    : "https://placehold.co/600x400?text=Placeholder"
+                }
+                h="auto"
+                maw={300}
+                fallbackSrc="https://placehold.co/600x400?text=Placeholder"
+              />
+            </Flex>
           </Box>
-          <Box>
-            <Text fw={500} fz={14}>
-              Image
-            </Text>
-            <Box
-              mt={10}
-              w="100%"
-              p={10}
-              bg="white"
-              bd="1px solid #D9D9D9"
-              bdrs={10}
-            >
-              <Flex justify="center" align="center" bg="#D9D9D9" bdrs={10}>
-                <Image
-                  fit="cover"
-                  radius="md"
-                  src={
-                    sampleData.img
-                      ? nullImage
-                      : "https://placehold.co/600x400?text=Placeholder"
-                  }
-                  h="auto"
-                  maw={300}
-                  fallbackSrc="https://placehold.co/600x400?text=Placeholder"
-                />
-              </Flex>
-            </Box>
-          </Box>
+        </Box>
 
-          <Grid ms={{ xs: "auto" }} mt="auto">
-            <Grid.Col
-              span={{ base: 12, xs: "auto" }}
-              order={{ base: 1, xs: 2 }}
+        <Grid ms={{ xs: "auto" }} mt="auto">
+          <Grid.Col span={{ base: 12, xs: "auto" }} order={{ base: 1, xs: 2 }}>
+            <Button
+              disabled={!hasScanned}
+              fullWidth
+              bg={hasScanned ? "green" : "gray"}
+              radius={10}
+              onClick={onSaveAttendance}
+              loading={loading}
             >
-              <Button
-                disabled={!hasScanned}
-                size="md"
-                fullWidth
-                bg={hasScanned ? "green" : "gray"}
-                radius={10}
-                onClick={onSaveAttendance}
-                loading={loading}
-              >
-                Save Attendance
-              </Button>
-            </Grid.Col>
+              Save Attendance
+            </Button>
+          </Grid.Col>
 
-            <Grid.Col
-              span={{ base: 12, xs: "auto" }}
-              order={{ base: 2, xs: 1 }}
+          <Grid.Col span={{ base: 12, xs: "auto" }} order={{ base: 2, xs: 1 }}>
+            <Button
+              disabled={!hasScanned}
+              fullWidth
+              bg={hasScanned ? "red" : "gray"}
+              radius={10}
+              onClick={onCancelAttendance}
             >
-              <Button
-                disabled={!hasScanned}
-                size="md"
-                fullWidth
-                bg={hasScanned ? "red" : "gray"}
-                radius={10}
-                onClick={onCancelAttendance}
-              >
-                Cancel
-              </Button>
-            </Grid.Col>
-          </Grid>
-        </Flex>
+              Cancel
+            </Button>
+          </Grid.Col>
+        </Grid>
       </Flex>
-    </>
+    </Flex>
   );
 }
 

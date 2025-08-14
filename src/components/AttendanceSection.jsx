@@ -1,6 +1,7 @@
 import { Box, Flex, Stack } from "@mantine/core";
 
 import QRScanner from "./QRScanner";
+import Watermark from "./Watermark";
 import Details from "./Details";
 import SuccessModal from "./SuccessModal";
 
@@ -41,27 +42,30 @@ function AttendanceSection() {
 
   return (
     <>
-      <Stack bg="#e4e4e4" mih="100dvh" justify="center">
-        <Flex
-          py={{ base: defaultStyles.padding, xl: 5 }}
-          px={defaultStyles.padding}
-          gap={20}
-          direction={{ base: "column", md: "row" }}
-        >
+      <Stack
+        bg="#e4e4e4"
+        px={defaultStyles.padding}
+        py={{ base: defaultStyles.padding, xl: 5 }}
+        mih="100dvh"
+        justify="center"
+      >
+        <Flex gap={20} direction={{ base: "column", md: "row" }}>
           <Box
             bg="white"
             flex={1}
             p={defaultStyles.padding}
             bdrs={defaultStyles.borderRadius}
             bd={defaultStyles.border}
-            miw={0}
+            style={{ position: "relative" }}
           >
             <QRScanner onScan={handleScan} />
+
+            <Watermark />
           </Box>
 
           <Box
             bg="white"
-            flex={1}
+            flex={1.125}
             p={defaultStyles.padding}
             bdrs={defaultStyles.borderRadius}
             bd={defaultStyles.border}
