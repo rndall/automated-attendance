@@ -12,20 +12,16 @@ import {
 
 import nullImage from "../assets/photo.svg";
 
+import { mediaURL } from "../api/axiosInstance";
+
 function Details({
   hasScanned,
   onCancelAttendance,
   onSaveAttendance,
   loading,
+  attendee,
 }) {
-  const sampleData = {
-    name: "Jose Cruz",
-    student_ID: 0o123301572,
-    year: "4th year",
-    section: "CCIS7A",
-    img: "https://placehold.co/600x400?text=Placeholder",
-  };
-
+  
   return (
     <>
       <Flex direction="column" gap={30} mih="100%">
@@ -47,38 +43,38 @@ function Details({
               <Input.Wrapper label="Full Name">
                 <Input
                   placeholder={"Full Name"}
-                  value={sampleData.name}
+                  value={attendee?.full_name ? attendee.full_name : ""}
                   size="lg"
                 />
               </Input.Wrapper>
               <Flex gap="lg" direction={{ base: "column", sm: "row" }}>
-                <Input.Wrapper flex={1} label="Student ID No.">
+                <Input.Wrapper flex={1} label="Program">
                   <Input
-                    placeholder="Student ID No."
-                    value={sampleData.student_ID}
-                    size="lg"
-                  />
-                </Input.Wrapper>
-                <Input.Wrapper flex={1} label="Course">
-                  <Input
-                    placeholder="Course"
-                    value={sampleData.course}
+                    placeholder="Program"
+                    value={attendee?.program ? attendee.program : ""}
                     size="lg"
                   />
                 </Input.Wrapper>
               </Flex>
               <Flex gap="lg" direction={{ base: "column", sm: "row" }}>
+                <Input.Wrapper flex={1} label="Student ID No.">
+                  <Input
+                    placeholder="Student ID No."
+                    value={attendee?.student_number ? attendee.student_number : ""} 
+                    size="lg"
+                  />
+                </Input.Wrapper>
                 <Input.Wrapper flex={1} label="Year Level">
                   <Input
                     placeholder="Year Level"
-                    value={sampleData.year}
+                    value={attendee?.year_level ? attendee.year_level : ""}
                     size="lg"
                   />
                 </Input.Wrapper>
                 <Input.Wrapper flex={1} label="Section">
                   <Input
                     placeholder="Section"
-                    value={sampleData.section}
+                    value={attendee?.section ? attendee.section : ""}
                     size="lg"
                   />
                 </Input.Wrapper>
@@ -102,13 +98,13 @@ function Details({
                   fit="cover"
                   radius="md"
                   src={
-                    sampleData.img
-                      ? nullImage
-                      : "https://placehold.co/600x400?text=Placeholder"
+                    attendee?.picture_url
+                      ? `${mediaURL}${attendee?.picture_url}`
+                      : nullImage
                   }
                   h="auto"
                   maw={300}
-                  fallbackSrc="https://placehold.co/600x400?text=Placeholder"
+                  // fallbackSrc="https://placehold.co/600x400?text=Placeholder"
                 />
               </Flex>
             </Box>

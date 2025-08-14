@@ -1,6 +1,6 @@
 import { Modal, Text } from "@mantine/core";
 
-function SuccessModal({ opened, close }) {
+function SuccessModal({ opened, close, message }) {
   return (
     <>
       <Modal
@@ -11,7 +11,7 @@ function SuccessModal({ opened, close }) {
         size="lg"
       >
         <Text p="lg" c="green" ta="center" fw={700} fz="2rem">
-          Attendance Saved Successfully!
+          {message}
         </Text>
       </Modal>
     </>

@@ -1,11 +1,18 @@
+// Matine imports
 import { Box, Flex, Stack } from "@mantine/core";
 
+// Components
 import QRScanner from "./QRScanner";
 import Details from "./Details";
 import SuccessModal from "./SuccessModal";
 
+// Hooks
 import { useState } from "react";
 import { useDisclosure } from "@mantine/hooks";
+import { useQuery, useMutation } from "@tanstack/react-query";
+
+// API imports
+import { getAttendee, getAttendance, saveAttendance } from "../api/attendance";
 
 const defaultStyles = {
   padding: 10,
@@ -13,30 +20,62 @@ const defaultStyles = {
   border: "1px solid #BBB",
 };
 
+// Time when the QR is scanned
+const timeScanned = new Date().toLocaleTimeString("en-ca", {
+  timeZone: "Asia/Manila",
+  hour12: false,
+});
+
 function AttendanceSection() {
-  const [scannedStudentId, setScannedStudentId] = useState(null);
+  const [scannedStudentNumber, setScannedStudentNumber] = useState("");
   const [loading, setLoading] = useState(false);
   const [opened, { open, close }] = useDisclosure(false);
+  const [modalMessage, setModalMessage] = useState("");
 
-  const handleScan = (result) => {
-    setScannedStudentId(result);
+  // Fetch List of attendees
+  // const { data: attendanceData } = useQuery({
+  //   queryKey: ["attendance"],
+  //   queryFn: getAttendance,
+  // });
 
-    // Fetch student details
+  // Fetch attendee details based on scanned student number
+  const { data: attendee } = useQuery({
+    queryKey: ["attendee", scannedStudentNumber],
+    queryFn: () => getAttendee(scannedStudentNumber),
+  });
 
-    console.log(result);
+  // Save attendance function
+  const { mutate } = useMutation({
+    mutationKey: ["saveAttendance"],
+    mutationFn: saveAttendance,
+    onSuccess: (message) => {
+      setLoading(false);
+      setModalMessage(message);
+      open();
+    },
+  });
+
+  const handleSaveAttendance = () => {
+    let attendanceDetails = {
+      student_number: attendee.student_number,
+    };
+
+    timeScanned < "11:59:00"
+      ? (attendanceDetails.is_present_morning = true)
+      : (attendanceDetails.is_present_afternoon = true);
+
+    mutate({ id: attendee.student_number, attendanceDetails });
+    setLoading(true);
   };
 
-  const handleCancelAttendance = () => setScannedStudentId(null);
+  const handleCancelAttendance = () => {
+    setScannedStudentNumber("");
+    setModalMessage("");
+  };
 
-  const handleSaveAttendance = async () => {
-    setLoading(true);
-
-    // Mock attendance saving api
-    setTimeout(() => {
-      open();
-      setScannedStudentId(null);
-      setLoading(false);
-    }, 500);
+  const handleCloseModal = () => {
+    handleCancelAttendance();
+    close();
   };
 
   return (
@@ -56,7 +95,12 @@ function AttendanceSection() {
             bd={defaultStyles.border}
             miw={0}
           >
-            <QRScanner onScan={handleScan} />
+            <QRScanner
+              onScan={(scannedStudentNumber) =>
+                setScannedStudentNumber(scannedStudentNumber)
+              }
+              scannerPause={!!scannedStudentNumber}
+            />
           </Box>
 
           <Box
@@ -68,16 +112,21 @@ function AttendanceSection() {
             miw={0}
           >
             <Details
+              attendee={attendee}
               onSaveAttendance={handleSaveAttendance}
               onCancelAttendance={handleCancelAttendance}
-              hasScanned={!!scannedStudentId}
+              hasScanned={!!scannedStudentNumber}
               loading={loading}
             />
           </Box>
         </Flex>
       </Stack>
 
-      <SuccessModal opened={opened} close={close} />
+      <SuccessModal
+        opened={opened}
+        close={handleCloseModal}
+        message={modalMessage}
+      />
     </>
   );
 }

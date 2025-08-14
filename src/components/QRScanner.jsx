@@ -1,9 +1,8 @@
 import { Scanner } from "@yudiel/react-qr-scanner";
 
-function QRScanner({ onScan }) {
+function QRScanner({ onScan, scannerPause }) {
   return (
     <Scanner
-      allowMultiple
       styles={{
         container: {
           borderRadius: "10px",
@@ -11,6 +10,7 @@ function QRScanner({ onScan }) {
         },
       }}
       onScan={(result) => onScan(result[0].rawValue)}
+      paused={scannerPause}
     />
   );
 }
