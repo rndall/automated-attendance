@@ -8,12 +8,12 @@ import Details from "./Details";
 import SuccessModal from "./SuccessModal";
 
 // Hooks
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDisclosure } from "@mantine/hooks";
 import { useQuery, useMutation } from "@tanstack/react-query";
 
 // API imports
-import { getAttendee, getAttendance, saveAttendance } from "../api/attendance";
+import { getAttendee, saveAttendance } from "../api/attendance";
 
 const defaultStyles = {
   padding: 10,
@@ -40,12 +40,26 @@ function AttendanceSection() {
   // });
 
   // Fetch attendee details based on scanned student number
-  const { data: attendee } = useQuery({
+  const {
+    data: attendee,
+    isError,
+    error,
+  } = useQuery({
     queryKey: ["attendee", scannedStudentNumber],
     queryFn: () => getAttendee(scannedStudentNumber),
+    enabled: !!scannedStudentNumber,
+    retry: false,
+    refetchOnWindowFocus: false,
   });
 
-  // Save attendance function
+  useEffect(() => {
+    if (isError) {
+      setModalMessage(error.response.data.message);
+      open();
+    }
+  });
+
+  // Save attendance
   const { mutate } = useMutation({
     mutationKey: ["saveAttendance"],
     mutationFn: saveAttendance,
@@ -61,7 +75,7 @@ function AttendanceSection() {
       student_number: attendee.student_number,
     };
 
-    timeScanned < "11:59:00"
+    timeScanned <= "11:59:59"
       ? (attendanceDetails.is_present_morning = true)
       : (attendanceDetails.is_present_afternoon = true);
 

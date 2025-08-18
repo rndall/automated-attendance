@@ -25,7 +25,7 @@ function Details({
     <Flex direction="column" gap="sm" mih="100%">
       <Box bg="#1061D5" p={35} bdrs={10} ta="center">
         <Text fw={700} fz={{ base: "1.25rem", sm: "1.5rem" }} c="white">
-          ATTENDANCE AND IDENTITY VERIFICATION SYSTEM
+          CCIS STUDENT ATTENDANCE MONITORING SYSTEM
         </Text>
       </Box>
 
@@ -44,6 +44,16 @@ function Details({
                 placeholder={"Full Name"}
                 value={attendee?.full_name ? attendee.full_name : ""}
                 radius="md"
+                readOnly
+              />
+            </Input.Wrapper>
+
+            <Input.Wrapper flex={1} label="Program" size="md">
+              <Input
+                placeholder="Program"
+                value={attendee?.program ? attendee.program : ""}
+                radius="md"
+                readOnly
               />
             </Input.Wrapper>
 
@@ -58,6 +68,15 @@ function Details({
                     attendee?.student_number ? attendee.student_number : ""
                   }
                   radius="md"
+                  readOnly
+                />
+              </Input.Wrapper>
+              <Input.Wrapper flex={1} label="Year Level" size="md">
+                <Input
+                  placeholder="Year Level"
+                  value={attendee?.year_level ? attendee.year_level : ""}
+                  radius="md"
+                  readOnly
                 />
               </Input.Wrapper>
               <Input.Wrapper flex={1} label="Section" size="md">
@@ -65,26 +84,7 @@ function Details({
                   placeholder="Section"
                   value={attendee?.section ? attendee.section : ""}
                   radius="md"
-                />
-              </Input.Wrapper>
-            </Flex>
-
-            <Flex
-              gap={{ base: "md", sm: "lg" }}
-              direction={{ base: "column", sm: "row" }}
-            >
-              <Input.Wrapper flex={1} label="Year Level" size="md">
-                <Input
-                  placeholder="Year Level"
-                  value={attendee?.year_level ? attendee.year_level : ""}
-                  radius="md"
-                />
-              </Input.Wrapper>
-              <Input.Wrapper flex={1} label="Program" size="md">
-                <Input
-                  placeholder="Program"
-                  value={attendee?.program ? attendee.program : ""}
-                  radius="md"
+                  readOnly
                 />
               </Input.Wrapper>
             </Flex>
@@ -105,16 +105,16 @@ function Details({
           >
             <Flex justify="center" align="center" bg="#D9D9D9" bdrs={10}>
               <Image
-                fit="cover"
+                fit="contain"
                 radius="md"
                 src={
                   attendee?.picture_url
                     ? `${mediaURL}${attendee?.picture_url}`
                     : nullImage
                 }
-                h="auto"
+                h={375}
                 maw={300}
-                // fallbackSrc="https://placehold.co/600x400?text=Placeholder"
+                fallbackSrc="https://icrier.org/research/reserve-banks-endowment-scheme-for-professorial-chairs/"
               />
             </Flex>
           </Box>
