@@ -1,6 +1,6 @@
 import { Modal, Text } from "@mantine/core";
 
-function SuccessModal({ opened, close, message }) {
+function NotificationModal({ opened, close, message, isError }) {
   return (
     <>
       <Modal
@@ -10,7 +10,13 @@ function SuccessModal({ opened, close, message }) {
         withCloseButton={false}
         size="lg"
       >
-        <Text p="lg" c="green" ta="center" fw={700} fz="2rem">
+        <Text
+          p="lg"
+          c={!isError ? "green" : "red"}
+          ta="center"
+          fw={700}
+          fz="2rem"
+        >
           {message}
         </Text>
       </Modal>
@@ -18,4 +24,4 @@ function SuccessModal({ opened, close, message }) {
   );
 }
 
-export default SuccessModal;
+export default NotificationModal;

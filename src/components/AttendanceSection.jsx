@@ -5,7 +5,7 @@ import { Box, Flex, Stack } from "@mantine/core";
 import QRScanner from "./QRScanner";
 import Watermark from "./Watermark";
 import Details from "./Details";
-import SuccessModal from "./SuccessModal";
+import NotificationModal from "./NotificationModal";
 
 // Hooks
 import { useEffect, useState } from "react";
@@ -140,10 +140,11 @@ function AttendanceSection() {
         </Flex>
       </Stack>
 
-      <SuccessModal
+      <NotificationModal
         opened={opened}
         close={handleCloseModal}
         message={modalMessage}
+        isError={isError}
       />
     </>
   );
