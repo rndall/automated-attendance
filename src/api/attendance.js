@@ -11,22 +11,14 @@ import { ASAMS_API } from "./axiosInstance";
 // };
 
 export const getAttendee = async (studentNumber) => {
-  try {
-    const { data } = await ASAMS_API.get(`/students/${studentNumber}`);
-    return data.data;
-  } catch (error) {
-    throw error;
-  }
+  const { data } = await ASAMS_API.get(`/students/${studentNumber}`);
+  return data.data;
 };
 
 export const saveAttendance = async ({ id, attendanceDetails }) => {
-  try {
-    const { data } = await ASAMS_API.put(
-      `/students/${id}/attendance`,
-      attendanceDetails
-    );
-    return data.message;
-  } catch (error) {
-    throw error;
-  }
+  const { data } = await ASAMS_API.put(
+    `/students/${id}/attendance`,
+    attendanceDetails
+  );
+  return data.message;
 };
