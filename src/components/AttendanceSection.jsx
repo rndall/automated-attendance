@@ -53,19 +53,24 @@ function AttendanceSection() {
   });
 
   useEffect(() => {
-    if (isError) {
+    if (error) {
       setModalMessage(error.response.data.message);
       open();
     }
-  });
+  }, [error, open]);
 
   // Save attendance
-  const { mutate } = useMutation({
+  const { mutate, isError: hasMutationError } = useMutation({
     mutationKey: ["saveAttendance"],
     mutationFn: saveAttendance,
     onSuccess: (message) => {
       setLoading(false);
       setModalMessage(message);
+      open();
+    },
+    onError: ({ response }) => {
+      setLoading(false);
+      setModalMessage(response.data.message);
       open();
     },
   });
@@ -144,7 +149,7 @@ function AttendanceSection() {
         opened={opened}
         close={handleCloseModal}
         message={modalMessage}
-        isError={isError}
+        isError={isError || hasMutationError}
       />
     </>
   );
