@@ -25,7 +25,7 @@ function Details({
     <Flex direction="column" gap="sm" mih="100%">
       <Box bg="#1061D5" p={35} bdrs={10} ta="center">
         <Text fw={700} fz={{ base: "1.25rem", sm: "1.5rem" }} c="white">
-          CCIS STUDENT ATTENDANCE MONITORING SYSTEM
+          CCIS ATTENDANCE RECORDING SYSTEM
         </Text>
       </Box>
 
